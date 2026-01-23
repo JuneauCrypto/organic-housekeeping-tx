@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Location - Organic Housekeeping TX</title>
+    <meta name="description" content="Location information for Organic Housekeeping TX">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="location-profile.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <a href="/" class="logo-link">
+                        <img src="assets/images/logo.png" alt="Organic Housekeeping TX" class="logo-image" />
+                        <span class="logo-text">Organic Housekeeping TX</span>
+                    </a>
+                </div>
+                <div class="header-phone">
+                    <a href="tel:2819684668" class="phone-link">📞 (281) 968-4668</a>
+                </div>
+                <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <nav class="nav">
+                <a href="/#home">Home</a>
+                <a href="/#services">Services</a>
+                <a href="/#locations">Locations</a>
+                <a href="/#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Location Profile Section -->
+    <section class="location-profile">
+        <div class="container">
+            <div class="profile-header">
+                <a href="/#locations" class="back-link">← Back to Locations</a>
+                <h1 id="location-name" class="profile-title"></h1>
+                <p id="location-blurb" class="profile-blurb"></p>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-main">
+                    <div class="profile-section">
+                        <h2>About This Location</h2>
+                        <p id="location-description"></p>
+                    </div>
+
+                    <div class="profile-section">
+                        <h2>Service Areas</h2>
+                        <ul id="service-areas-list" class="service-areas-list"></ul>
+                    </div>
+
+                    <div class="profile-section">
+                        <h2>Service Zip Codes</h2>
+                        <p style="margin-bottom: 1rem; color: #666;">We provide service to the following zip codes:</p>
+                        <div id="zip-codes-list" class="zip-codes-grid"></div>
+                    </div>
+
+                    <div class="profile-section">
+                        <h2>Location Details</h2>
+                        <div class="location-details">
+                            <div class="detail-item">
+                                <strong>Address:</strong>
+                                <p id="location-address"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-sidebar">
+                    <div class="contact-card">
+                        <h3>Contact Information</h3>
+                        <div class="contact-info">
+                            <p><strong>Phone:</strong><br>
+                            <a href="#" id="contact-phone-link" class="contact-link"></a></p>
+                            
+                            <p><strong>Email:</strong><br>
+                            <a href="#" id="contact-email-link" class="contact-link"></a></p>
+                            
+                            <div id="website-section" style="display: none;">
+                                <p><strong>Website:</strong><br>
+                                <a href="#" id="contact-website-link" class="contact-link" target="_blank" rel="noopener noreferrer"></a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="action-btn quote-btn" id="profile-quote-btn">Request a Quote</button>
+                        <button class="action-btn contact-btn" id="profile-contact-btn">Contact Us</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Forms Container (same as main page) -->
+    <div id="forms-container" class="forms-container-wrapper" style="display: none;">
+        <div class="container">
+            <button class="close-forms-btn" onclick="closeForms()">× Close</button>
+            
+            <!-- Quote Form -->
+            <div id="quote-form-wrapper" class="form-wrapper" style="display: none;">
+                <h2 class="form-title">Request a Quote - <span id="quote-location-name"></span></h2>
+                <form id="quote-form" class="contact-form">
+                    <input type="hidden" id="quote-location" name="location" value="">
+                    
+                    <div class="form-group">
+                        <label for="quote-address">Address <span class="required">*</span></label>
+                        <input type="text" id="quote-address" name="address" required placeholder="Enter your address">
+                        <span class="error-message" id="quote-address-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quote-email">Email <span class="required">*</span></label>
+                        <input type="email" id="quote-email" name="email" required placeholder="your.email@example.com">
+                        <span class="error-message" id="quote-email-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quote-phone">Phone <span class="required">*</span></label>
+                        <input type="tel" id="quote-phone" name="phone" required placeholder="(281) 555-1234">
+                        <span class="error-message" id="quote-phone-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quote-service">Type of Cleaning Service <span class="required">*</span></label>
+                        <select id="quote-service" name="serviceType" required>
+                            <option value="">Please select a service</option>
+                            <option value="Move in/move out">Move in/move out</option>
+                            <option value="One time deep clean">One time deep clean</option>
+                            <option value="Bi-weekly service">Bi-weekly service</option>
+                            <option value="Weekly service">Weekly service</option>
+                            <option value="Monthly service">Monthly service</option>
+                            <option value="Airbnb">Airbnb</option>
+                            <option value="New home builds">New home builds</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <span class="error-message" id="quote-service-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quote-notes">Notes (Optional)</label>
+                        <textarea id="quote-notes" name="notes" rows="4" placeholder="Any additional information..."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-button">Submit Quote Request</button>
+                    <div class="form-message" id="quote-message"></div>
+                </form>
+            </div>
+
+            <!-- Contact Form -->
+            <div id="contact-form-wrapper" class="form-wrapper" style="display: none;">
+                <h2 class="form-title">Contact Us - <span id="contact-location-name"></span></h2>
+                <form id="contact-form" class="contact-form">
+                    <input type="hidden" id="contact-location" name="location" value="">
+                    
+                    <div class="form-group">
+                        <label for="contact-name">Name <span class="required">*</span></label>
+                        <input type="text" id="contact-name" name="name" required placeholder="Your name">
+                        <span class="error-message" id="contact-name-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-email">Email <span class="required">*</span></label>
+                        <input type="email" id="contact-email" name="email" required placeholder="your.email@example.com">
+                        <span class="error-message" id="contact-email-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-phone">Phone <span class="required">*</span></label>
+                        <input type="tel" id="contact-phone" name="phone" required placeholder="(281) 555-1234">
+                        <span class="error-message" id="contact-phone-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-notes">Notes <span class="required">*</span></label>
+                        <textarea id="contact-notes" name="notes" rows="4" required placeholder="Please provide your message or inquiry..."></textarea>
+                        <span class="error-message" id="contact-notes-error"></span>
+                    </div>
+
+                    <button type="submit" class="submit-button">Send Message</button>
+                    <div class="form-message" id="contact-message"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Organic Housekeeping TX. All rights reserved.</p>
+            <p class="footer-phone">Call us: <a href="tel:2819684668">(281) 968-4668</a></p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="location-profile.js"></script>
+</body>
+</html>
