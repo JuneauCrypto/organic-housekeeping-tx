@@ -73,7 +73,7 @@ Or for development with auto-reload:
 npm run dev
 ```
 
-The website will be available at `http://localhost:3000`
+The website will be available at `http://localhost:8000`
 
 ## Form Features
 

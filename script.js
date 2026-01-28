@@ -36,13 +36,43 @@ document.addEventListener('DOMContentLoaded', function() {
     // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            // Only handle anchor links (starting with #)
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
+        });
+    });
+
+    // Email copy functionality
+    document.querySelectorAll('a[href^="mailto:"]').forEach(emailLink => {
+        emailLink.addEventListener('click', async function (e) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+            const email = this.getAttribute('href').replace('mailto:', '');
+            
+            try {
+                await navigator.clipboard.writeText(email);
+                
+                // Show temporary message
+                const originalText = this.textContent;
+                this.textContent = 'Email copied!';
+                this.style.color = '#4CAF50';
+                
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.style.color = '';
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy email:', err);
+                // Fallback: open mailto link if clipboard fails
+                window.location.href = `mailto:${email}`;
             }
         });
     });

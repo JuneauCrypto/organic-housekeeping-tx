@@ -231,13 +231,19 @@ app.get('/api/health', (req, res) => {
 
 // Location profile routes
 app.get('/location/:locationId', (req, res) => {
-    const locationId = req.params.locationId;
+    const locationId = req.params.locationId.toLowerCase();
     const validLocations = ['woodforest', 'spring', 'houston'];
     
     if (validLocations.includes(locationId)) {
-        res.sendFile(path.join(__dirname, 'location-profile.html'));
+        const filePath = path.join(__dirname, 'location-profile.html');
+        res.sendFile(filePath, (err) => {
+            if (err) {
+                console.error('Error sending location profile:', err);
+                res.status(404).send('Location profile page not found');
+            }
+        });
     } else {
-        res.redirect('/');
+        res.status(404).send('Location not found');
     }
 });
 

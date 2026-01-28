@@ -108,20 +108,28 @@ const locations = {
 function getLocationFromURL() {
     const path = window.location.pathname;
     const match = path.match(/\/location\/([^\/]+)/);
-    return match ? match[1] : null;
+    return match ? match[1].toLowerCase() : null;
 }
 
 // Populate profile page with location data
 function loadLocationProfile() {
     const locationId = getLocationFromURL();
     
-    if (!locationId || !locations[locationId]) {
-        // Location not found, redirect to home
+    if (!locationId) {
+        console.error('No location ID found in URL');
+        window.location.href = '/';
+        return;
+    }
+    
+    if (!locations[locationId]) {
+        console.error('Location not found:', locationId);
+        console.log('Available locations:', Object.keys(locations));
         window.location.href = '/';
         return;
     }
 
     const location = locations[locationId];
+    console.log('Loading location:', locationId, location);
 
     // Update page title
     document.getElementById('page-title').textContent = `${location.displayName} - Organic Housekeeping TX`;
@@ -145,13 +153,20 @@ function loadLocationProfile() {
     // Populate zip codes
     if (location.zipCodes && location.zipCodes.length > 0) {
         const zipCodesList = document.getElementById('zip-codes-list');
-        zipCodesList.innerHTML = '';
-        location.zipCodes.forEach(zip => {
-            const span = document.createElement('span');
-            span.className = 'zip-code-item';
-            span.textContent = zip;
-            zipCodesList.appendChild(span);
-        });
+        if (zipCodesList) {
+            zipCodesList.innerHTML = '';
+            location.zipCodes.forEach(zip => {
+                const span = document.createElement('span');
+                span.className = 'zip-code-item';
+                span.textContent = zip;
+                zipCodesList.appendChild(span);
+            });
+        }
+    } else {
+        const zipCodesList = document.getElementById('zip-codes-list');
+        if (zipCodesList) {
+            zipCodesList.innerHTML = '<p style="color: #666;">Zip codes information coming soon.</p>';
+        }
     }
 
     // Populate address
@@ -162,8 +177,43 @@ function loadLocationProfile() {
     document.getElementById('contact-phone-link').textContent = location.contact.phone;
     document.getElementById('contact-phone-link').href = `tel:${location.contact.phoneLink}`;
     
-    document.getElementById('contact-email-link').textContent = location.contact.email;
-    document.getElementById('contact-email-link').href = `mailto:${location.contact.email}`;
+    // Add text/SMS link if phone number exists
+    if (location.contact.phoneLink) {
+        const textSection = document.getElementById('text-section');
+        const textLink = document.getElementById('contact-text-link');
+        if (textSection && textLink) {
+            textSection.style.display = 'block';
+            textLink.href = `sms:${location.contact.phoneLink}`;
+        }
+    }
+    
+    const emailLink = document.getElementById('contact-email-link');
+    emailLink.textContent = location.contact.email;
+    emailLink.href = `mailto:${location.contact.email}`;
+    
+    // Add email copy functionality
+    emailLink.addEventListener('click', async function(e) {
+        e.preventDefault();
+        const email = location.contact.email;
+        
+        try {
+            await navigator.clipboard.writeText(email);
+            
+            // Show temporary message
+            const originalText = this.textContent;
+            this.textContent = 'Email copied!';
+            this.style.color = '#4CAF50';
+            
+            setTimeout(() => {
+                this.textContent = originalText;
+                this.style.color = '';
+            }, 2000);
+        } catch (err) {
+            console.error('Failed to copy email:', err);
+            // Fallback: open mailto link if clipboard fails
+            window.location.href = `mailto:${email}`;
+        }
+    });
 
     // Populate website if available
     if (location.contact.website) {
@@ -236,6 +286,11 @@ if (typeof closeForms === 'undefined') {
 }
 
 // Load profile when page loads
-document.addEventListener('DOMContentLoaded', function() {
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        loadLocationProfile();
+    });
+} else {
+    // DOM is already loaded
     loadLocationProfile();
-});
+}
