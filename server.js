@@ -260,8 +260,13 @@ app.use((err, req, res, next) => {
     });
 });
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-    console.log(`Email configuration: ${transporter ? 'Configured' : 'NOT CONFIGURED - Please check your .env file'}`);
-});
+// Start server locally (don't start a dedicated server on serverless platforms like Vercel)
+if (!process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`Server is running on http://localhost:${PORT}`);
+        console.log(`Email configuration: ${transporter ? 'Configured' : 'NOT CONFIGURED - Please check your .env file'}`);
+    });
+}
+
+// Export the app for serverless platforms (Vercel will use this as the handler)
+module.exports = app;
